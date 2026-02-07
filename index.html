@@ -262,12 +262,22 @@
             show('editMode');
             autoExpand(editor);
 
+            // Critical for mobile: set selection BEFORE focus
+            editor.selectionStart = editor.selectionEnd = 0;
+            editor.scrollTop = 0;
+
             // Small delay to ensure browser handled show() before focus
             setTimeout(() => {
                 editor.focus({ preventScroll: true });
-                editor.selectionStart = editor.selectionEnd = 0;
+                editor.setSelectionRange(0, 0);
                 window.scrollTo(0, 0);
-                isTransitioning = false;
+
+                // Secondary check for mobile OS scrolling/cursor fights
+                setTimeout(() => {
+                    editor.setSelectionRange(0, 0);
+                    window.scrollTo(0, 0);
+                    isTransitioning = false;
+                }, 50);
             }, 10);
         }
 
