@@ -1,0 +1,7 @@
+
+name = "pipe"
+pages_build_output_dir = "."
+
+[vars]
+  NODE_VERSION = "20"
+  SUPABASE_URL = "https://vcfcxzolfvxmenahqjim.supabase.co"
