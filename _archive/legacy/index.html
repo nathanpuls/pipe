@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>pipe</title>
+    <link rel="icon" type="image/png" href="/logo-square.png?v=7">
+
+    <!-- INTER FONT -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Modern Typography */
+        body {
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+            color: #111;
+        }
+
+        /* Shared Styles for View & Edit */
+        .shared-text-style {
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+            letter-spacing: normal;
+            color: #111;
+            /* Use standard units */
+            padding-top: 48px;
+            padding-bottom: 48px;
+            padding-left: 16px;
+            padding-right: 16px;
+
+            width: 100%;
+            max-width: 42rem;
+            /* max-w-2xl */
+            margin: 0 auto;
+
+            white-space: pre-wrap;
+            word-break: break-word;
+            outline: none;
+            display: block;
+
+            /* RESET TEXTAREA */
+            border: none;
+            background: transparent;
+            resize: none;
+            overflow: hidden;
+
+            min-height: 100vh;
+            /* Both start with min-height screen */
+            box-sizing: border-box;
+        }
+
+        /* Interactive Words & Whitespace */
+        .stream-content span {
+            /* changed from inline-block to inline to correct newline wrapping */
+            display: inline;
+            border-radius: 2px;
+            cursor: pointer;
+            transition: background 0.1s;
+        }
+
+        /* Word spans can be inline-block to ensure they are treated as units? 
+           Actually, inline is better for natural flow.
+           But we need padding? inline supports padding.
+           Box decoration break? 
+           Let's stick to inline for everything to be safe with pre-wrap. */
+
+        .word-span {
+            /* padding: 0 1px;  -- maybe subtle padding for hit area? */
+        }
+
+        .word-span:hover {
+            background-color: #f3f4f6;
+        }
+
+        /* UNIFIED SELECTION HIGHLIGHT (Light Purple) */
+        .selection-highlight {
+            background-color: #e9d5ff !important;
+        }
+
+        /* Editors */
+        textarea:focus {
+            outline: none;
+        }
+    </style>
+</head>
+
+<body class="bg-white font-sans selection:bg-black selection:text-white cursor-text antialiased min-h-screen">
+
+    <!-- MAIN STREAM VIEW -->
+    <div id="streamView" class="stream-content shared-text-style"></div>
+
+    <!-- IN-FLOW EDITOR (Hidden by default) -->
+    <textarea id="giantEditor" class="shared-text-style hidden" placeholder="" spellcheck="false"></textarea>
+
+    <!-- SCRIPTS -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="/app.js"></script>
+</body>
+
+</html>
