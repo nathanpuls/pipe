@@ -21,8 +21,8 @@ export default function AutoCopyPage() {
                 try {
                     await navigator.clipboard.writeText(text);
                     setStatus("Copied to clipboard!");
-                    // Optional: Close window if opened by script
-                    // window.close();
+                    // Close window if opened by script
+                    setTimeout(() => window.close(), 500);
                 } catch (err) {
                     setStatus("Click anywhere to copy");
                 }
