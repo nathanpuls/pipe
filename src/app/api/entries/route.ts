@@ -63,17 +63,10 @@ export async function GET(request: Request) {
                 status: 200,
                 headers: {
                     'Content-Type': 'text/plain',
-                    'Access-Control-Allow-Origin': '*',
-                    'Access-Control-Allow-Methods': 'GET',
                 }
             });
         }
-        return NextResponse.json(data, {
-            headers: {
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Methods': 'GET',
-            }
-        });
+        return NextResponse.json(data);
     }
 
     // Default: List all (JSON)
@@ -157,10 +150,5 @@ export async function PUT(request: Request) {
 export async function OPTIONS() {
     return new Response(null, {
         status: 204,
-        headers: {
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-            'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-        },
     });
 }
