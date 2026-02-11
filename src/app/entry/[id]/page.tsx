@@ -27,8 +27,17 @@ async function getEntry(id: string) {
     return data;
 }
 
-export default async function EntryPage({ params }: { params: Promise<{ id: string }> }) {
+import AutoCopyHandler from '@/components/AutoCopyHandler';
+
+export default async function EntryPage({
+    params,
+    searchParams
+}: {
+    params: Promise<{ id: string }>,
+    searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+}) {
     const { id } = await params;
+    const { autocopy } = await searchParams;
     const entry = await getEntry(id);
 
     if (!entry) {
@@ -41,6 +50,7 @@ export default async function EntryPage({ params }: { params: Promise<{ id: stri
 
     return (
         <div className="min-h-screen bg-white">
+            {autocopy === 'true' && <AutoCopyHandler text={entry.content} />}
             <EntryShortcuts backHref={backHref} />
             {/* Fixed Icons Layer */}
             <div className="fixed top-0 left-0 right-0 flex justify-center pointer-events-none z-[60]">
