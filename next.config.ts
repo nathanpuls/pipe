@@ -14,7 +14,21 @@ const nextConfig: NextConfig = {
         ]
       }
     ]
-  }
+  },
+  async redirects() {
+    return [
+      {
+        source: "/magic",
+        destination: "https://magic-copy.vercel.app",
+        permanent: false,
+      },
+      {
+        source: "/mobile",
+        destination: "https://magic-copy.vercel.app/mobile",
+        permanent: false,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

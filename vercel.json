@@ -1,0 +1,6 @@
+{
+    "framework": "nextjs",
+    "name": "pipe",
+    "buildCommand": "npm run build",
+    "outputDirectory": ".next"
+}
