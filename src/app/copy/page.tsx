@@ -1,33 +1,39 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 
-export default function AutoCopyPage() {
+function CopyContent() {
     const [status, setStatus] = useState("Loading...");
     const [content, setContent] = useState("");
     const searchParams = useSearchParams();
     const page = searchParams.get("page") || "home";
 
     useEffect(() => {
-        // Fetch latest entry
-        fetch(`/api/entries?mode=latest_text&page=${page}`)
+        // Fetch latest entry from simplified route
+        fetch(`/api/copy?page=${page}`)
             .then(async (res) => {
-                if (!res.ok) throw new Error("Failed");
+                if (!res.ok) throw new Error(`API ${res.status}`);
                 const text = await res.text();
+
+                if (!text) {
+                    setStatus("No content found");
+                    return;
+                }
+
                 setContent(text);
 
                 // Attempt Auto Copy
                 try {
                     await navigator.clipboard.writeText(text);
-                    setStatus("Copied to clipboard!");
+                    setStatus("Copied!");
                     // Close window if opened by script
-                    setTimeout(() => window.close(), 500);
+                    setTimeout(() => window.close(), 800);
                 } catch (err) {
                     setStatus("Click anywhere to copy");
                 }
             })
-            .catch(() => setStatus("Error fetching entry"));
+            .catch((err) => setStatus(`Error: ${err.message}`));
     }, [page]);
 
     const handleCopy = async () => {
@@ -35,6 +41,7 @@ export default function AutoCopyPage() {
         try {
             await navigator.clipboard.writeText(content);
             setStatus("Copied!");
+            setTimeout(() => window.close(), 800);
         } catch (err) {
             setStatus("Failed to copy");
         }
@@ -53,5 +60,13 @@ export default function AutoCopyPage() {
                 Tap anywhere to retry copy
             </div>
         </div>
+    );
+}
+
+export default function AutoCopyPage() {
+    return (
+        <Suspense fallback={<div className="min-h-screen bg-black text-white flex items-center justify-center">Loading...</div>}>
+            <CopyContent />
+        </Suspense>
     );
 }
